@@ -69,6 +69,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
     private static final String KEY_BASEBAND_VERSION = "baseband_version";
     private static final String KEY_FIRMWARE_VERSION = "firmware_version";
     private static final String KEY_SECURITY_PATCH = "security_patch";
+    private static final String KEY_AUTHOR_INFO = "author_info";
     private static final String KEY_UPDATE_SETTING = "additional_system_update_settings";
     private static final String KEY_EQUIPMENT_ID = "fcc_equipment_id";
     private static final String PROPERTY_EQUIPMENT_ID = "ro.ril.fccid";
@@ -330,6 +331,13 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
                 Log.w(LOG_TAG, "Stop click action on " + KEY_SECURITY_PATCH + ": "
                         + "queryIntentActivities() returns empty" );
                 return true;
+            }
+            } else if (preference.getKey().equals(KEY_AUTHOR_INFO)) {
+            if (getPackageManager().queryIntentActivities(preference.getIntent(), 0).isEmpty()) {
+                // Don't send out the intent to stop crash
+                Log.w(LOG_TAG, "Stop click action on " + KEY_AUTHOR_INFO + ": "
+                        + "queryIntentActivities() returns empty" );
+                    return true;
             }
         } else if (preference.getKey().equals(KEY_DEVICE_FEEDBACK)) {
             sendFeedback();
